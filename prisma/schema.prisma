@@ -17,6 +17,11 @@ model User {
   contact String
   password String?
   address String
+  createdAt DateTime @default(now()) @map("createAdt")
+  updatedAt DateTime? @updatedAt
+
+  schedulings Scheduling[]
+  jobs Jobs[]
 
   @@map("users")
 }
@@ -29,6 +34,44 @@ model Admin {
   contact String
   password String
   cnpj String @unique
+  createdAt DateTime @default(now()) @map("createAdt")
+  updatedAt DateTime? @updatedAt
+
+  jobs Jobs[]
 
   @@map("admin")
+}
+
+model Jobs {
+  id String @id @default(uuid())
+  name String
+  description String @unique
+  price String
+  createdAt DateTime @default(now()) @map("createAdt")
+  updatedAt DateTime? @updatedAt
+  user User? @relation(fields: [userId], references: [id])
+  userId String?
+
+  admin Admin? @relation(fields: [adminId], references: [id])
+  adminId String?
+
+  
+  @@map("jobs")
+}
+
+model Scheduling {
+  id String @id @default(uuid())
+  name String
+  email String
+  contact String
+  messageuser String
+  dateService String
+  createdAt DateTime @default(now()) @map("createAdt")
+  updatedAt DateTime? @updatedAt
+
+  // Relação com o usuário que fez o agendamento
+  user User? @relation(fields: [userId], references: [id])
+  userId String?
+
+  @@map("scheduling")
 }
