@@ -1,26 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { UserDTO } from './dto/user.dto';
-import { PrismaService } from 'src/database/PrismaService';
+import { PrismaService } from '../../database/PrismaService';
 
 @Injectable()
 export class UserService {
 
-    constructor(private prisma: PrismaService) { }
+    constructor(private prisma: PrismaService) {}
 
     async create(data: UserDTO) {
-        const { id } = data;
-        const userExistis = await this.prisma.user.findFirst({
+        const { name, email, contact, password, address } = data;
+
+        const userExists = await this.prisma.user.findFirst({
             where: {
-                id: id,
+                email: email,
             }
         });
 
-        if (userExistis) {
+        if (userExists) {
             throw new Error('User already exists');
         }
 
         const userCreate = await this.prisma.user.create({
-            data,
+            data: {
+                name,
+                email,
+                contact,
+                password,
+                address,
+            },
         });
 
         return userCreate;
