@@ -1,8 +1,8 @@
-export type UserDTO = {
+export interface Admin {
     id? : string;
     name: string;
     email: string;
     contact: string;
-    address : string;
     password: string;
+    cnpj: string;
 }
