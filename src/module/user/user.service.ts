@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { UserDTO } from './dto/user.dto';
 import { PrismaService } from '../../database/PrismaService';
+import { UserDTO } from './dto/user.dto';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class UserService {
 
+    users: any
+    
     constructor(private prisma: PrismaService) {}
 
     async create(data: UserDTO) {
@@ -45,7 +48,7 @@ export class UserService {
         });
 
         if (!userExist) {
-            throw new Error('User does not exists!')
+            throw new Error('User does not exist!');
         }
 
         return await this.prisma.user.update({
@@ -55,6 +58,7 @@ export class UserService {
             },
         });
     }
+
     async delete(id: string) {
         const userExist = await this.prisma.user.findUnique({
             where: {
@@ -63,7 +67,7 @@ export class UserService {
         });
 
         if (!userExist) {
-            throw new Error('User does not exists!')
+            throw new Error('User does not exist!');
         } 
 
         return await this.prisma.user.delete({
@@ -72,4 +76,12 @@ export class UserService {
             },
         });
     }
-};
+    async findByEmail(email: string): Promise<User | undefined> {
+        return this.prisma.user.findFirst({
+        where: {
+            email: email,
+        },
+        });
+    }
+  
+}
