@@ -4,40 +4,44 @@ import { SchedulingDTO } from './dto/scheduling.dto';
 
 @Injectable()
 export class SchedulingService {
-    constructor(private prisma: PrismaService) {};
+  constructor(private prisma: PrismaService) {}
 
-    async findAll() {
-        return this.prisma.scheduling.findMany(); 
-    }
+  async findAll() {
+    return this.prisma.scheduling.findMany();
+  }
 
-    async create(data: SchedulingDTO) {
-        const { name, email, contact, messageuser, dateService } = data;
+  async create(data: SchedulingDTO) {
+    const { name, email, contact, messageuser, dateService } = data;
 
-        const schedulingCreate = await this.prisma.scheduling.create({
-            data: {
-                name, email, contact, messageuser, dateService
-            },
-        });
+    const schedulingCreate = await this.prisma.scheduling.create({
+      data: {
+        name,
+        email,
+        contact,
+        messageuser,
+        dateService,
+      },
+    });
 
-        return schedulingCreate;
-    }
+    return schedulingCreate;
+  }
 
-    async update(id: string, data: SchedulingDTO) {
-        return await this.prisma.scheduling.update({
-            data, 
-            where: {
-                id: id
-            },
-        });
-    }
+  async update(id: string, data: SchedulingDTO) {
+    return await this.prisma.scheduling.update({
+      data,
+      where: {
+        id: id,
+      },
+    });
+  }
 
-    async delete(id: string) {
-        const scheduling = await this.prisma.scheduling.delete({
-            where: {
-                id,
-            },
-        });
+  async delete(id: string) {
+    const scheduling = await this.prisma.scheduling.delete({
+      where: {
+        id,
+      },
+    });
 
-        return scheduling;
-    }
-};
+    return scheduling;
+  }
+}

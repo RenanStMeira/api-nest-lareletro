@@ -1,12 +1,17 @@
-import { BadRequestException, Body, Injectable, Param, Put } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Injectable,
+  Param,
+  Put,
+} from '@nestjs/common';
 import { AdminDTO } from './dto/admin.dto';
 import { PrismaService } from '../../database/PrismaService';
 import { Admin } from './model/admin.model';
 
 @Injectable()
 export class AdminService {
-
-  admin: any
+  admin: any;
 
   constructor(private prisma: PrismaService) {}
 
@@ -52,7 +57,7 @@ export class AdminService {
     });
 
     if (!adminExist) {
-      throw new Error('Admin does not exists!')
+      throw new Error('Admin does not exists!');
     }
 
     return await this.prisma.admin.update({
@@ -70,23 +75,21 @@ export class AdminService {
       },
     });
 
-    if(!adminExist) {
-      throw new Error('Admin does not exists!')
+    if (!adminExist) {
+      throw new Error('Admin does not exists!');
+    }
 
-      }
-
-      return await this.prisma.admin.delete({
-        where: {
-          id,
-        },
-      });
+    return await this.prisma.admin.delete({
+      where: {
+        id,
+      },
+    });
   }
   async findByEmail(email: string): Promise<Admin | undefined> {
     return this.prisma.admin.findFirst({
-    where: {
+      where: {
         email: email,
-    },
+      },
     });
   }
-};
-
+}

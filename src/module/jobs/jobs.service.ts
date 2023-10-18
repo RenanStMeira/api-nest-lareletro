@@ -4,7 +4,6 @@ import { JobsDTO } from './dto/jobs.dto';
 
 @Injectable()
 export class JobsService {
-
   constructor(private prisma: PrismaService) {}
 
   async findAll() {
@@ -20,13 +19,15 @@ export class JobsService {
       },
     });
 
-    if(jobsExists) {
-      throw new Error ('Jobs already exists')
+    if (jobsExists) {
+      throw new Error('Jobs already exists');
     }
 
     const createJobs = await this.prisma.jobs.create({
       data: {
-        name, description, price
+        name,
+        description,
+        price,
       },
     });
 
@@ -35,13 +36,13 @@ export class JobsService {
 
   async update(id: string, data: JobsDTO) {
     const jobsExist = await this.prisma.user.findUnique({
-        where: {
-            id,
-        },
+      where: {
+        id,
+      },
     });
 
-    if(!jobsExist) {
-      throw new Error('Jobs already exists')
+    if (!jobsExist) {
+      throw new Error('Jobs already exists');
     }
 
     return await this.prisma.jobs.update({
@@ -54,19 +55,19 @@ export class JobsService {
 
   async delete(id: string) {
     const jobsExist = await this.prisma.jobs.findUnique({
-        where: {
-            id,
-        },
+      where: {
+        id,
+      },
     });
 
     if (!jobsExist) {
-        throw new Error('jobs does not exists!')
-    } 
+      throw new Error('jobs does not exists!');
+    }
 
     return await this.prisma.jobs.delete({
-        where: {
-            id,
-        },
+      where: {
+        id,
+      },
     });
   }
 }

@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { AdminDTO } from './dto/admin.dto';
 
@@ -25,4 +33,4 @@ export class AdminController {
   async delete(@Param('id') id: string) {
     return this.adminService.delete(id);
   }
-};
+}
