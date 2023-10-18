@@ -5,6 +5,9 @@ import { Admin } from './model/admin.model';
 
 @Injectable()
 export class AdminService {
+
+  admin: any
+
   constructor(private prisma: PrismaService) {}
 
   async create(data: AdminDTO): Promise<Admin> {
@@ -77,6 +80,13 @@ export class AdminService {
           id,
         },
       });
+  }
+  async findByEmail(email: string): Promise<Admin | undefined> {
+    return this.prisma.admin.findFirst({
+    where: {
+        email: email,
+    },
+    });
   }
 };
 
